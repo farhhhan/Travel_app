@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -314,6 +315,7 @@ class _BookedPackageDetialsScreenState
                                 DataColumn(label: Text('Expiry')),
                                 DataColumn(label: Text('Country')),
                                 DataColumn(label: Text('PAN Number')),
+                                DataColumn(label: Text('Proof')),
                               ],
                               rows: List.generate(
                                 widget.packageModel.TravellersList.length,
@@ -328,6 +330,12 @@ class _BookedPackageDetialsScreenState
                                     DataCell(Text(traveler['expiry'])),
                                     DataCell(Text(traveler['issueingCountry'])),
                                     DataCell(Text(traveler['panNumber'])),
+                                    DataCell(GestureDetector(
+                                        onTap: () {
+                                          showImage(
+                                              context, traveler['pasImage']);
+                                        },
+                                        child: Icon(Icons.image))),
                                   ]);
                                 },
                               ),
@@ -760,6 +768,43 @@ class _BookedPackageDetialsScreenState
       context: context,
       builder: (BuildContext context) {
         return alert;
+      },
+    );
+  }
+
+  void showImage(BuildContext context, String image) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: SizedBox(
+                  height: 200,
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10.0,
+                right: 10.0,
+                child: IconButton(
+                  icon: Icon(Icons.close, color: Colors.black45),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

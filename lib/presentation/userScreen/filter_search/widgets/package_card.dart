@@ -27,18 +27,18 @@ class PackageCard extends StatelessWidget {
           )
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => PackageDetailScreen(
+      child: InkWell(
+        onTap: (){
+            Navigator.push(context,MaterialPageRoute(builder: (context) => PackageDetailScreen(
                    netImage: imageUrl, 
                      packageModel: packageModel),));
-                },
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: Container(
                   height: 120,
                   width: MediaQuery.of(context).size.width,
@@ -60,69 +60,69 @@ class PackageCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              packageModel.packageName!,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: SizedBox(
-                height: 50,
-                child: Text(
-                  packageModel.packageDesc!,
-                  style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                packageModel.packageName!,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: SizedBox(
+                  height: 50,
+                  child: Text(
+                    packageModel.packageDesc!,
+                    style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                  ),
                 ),
               ),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  "images/cal.png",
-                  height: 14,
-                ),
-                const SizedBox(
-                  width: 2,
-                ),
-                Text(
-                  "60 Calories",
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 11,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    "images/cal.png",
+                    height: 14,
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                const Text(
-                  "₹",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.amber),
-                ),
-                Text(
-                  packageModel.packagePayment!,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
-          ],
+                  const SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    "Make Sure Trip",
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 11,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  const Text(
+                    "₹",
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.amber),
+                  ),
+                  Text(
+                    packageModel.packagePayment!,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

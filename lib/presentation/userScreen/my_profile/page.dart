@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:travel_app/application/bloc/profileUser/bloc/user_bloc.dart';
 import 'package:travel_app/presentation/custome_widget/custom_bookskell.dart';
 import 'package:travel_app/presentation/userScreen/history/history.dart';
-import 'package:travel_app/presentation/userScreen/my_profile/widgets/payments.dart';
 import 'package:travel_app/presentation/userScreen/my_profile/widgets/user_details.dart';
 import 'package:travel_app/presentation/userScreen/profile/user_profile.dart';
 
@@ -51,7 +50,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
                 child: TabBarView(
                   children: [
                     UserProfileScreen(),
-                    Payments(),
                    BookedHistory(),
                   ],
                 ),

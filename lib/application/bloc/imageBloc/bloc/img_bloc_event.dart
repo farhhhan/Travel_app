@@ -8,3 +8,4 @@ sealed class ImgBlocEvent extends Equatable {
 }
 class camerPickerEvent extends ImgBlocEvent{}
 class gellaryPickerEvent extends ImgBlocEvent{}
+class SaveEvent extends ImgBlocEvent{}

@@ -14,7 +14,7 @@ class BookedRepo{
         final pickupDate = DateTime.parse(bookingdate);
         DateTime currentDate = DateTime.now();
 
-        if (pickupDate.isAfter(currentDate)) {
+        if (pickupDate.isAfter(currentDate) || pickupDate==currentDate) {
           packageList.add(BookedModel.fromJson(element.data()));
         }
       });
@@ -38,7 +38,7 @@ class BookedRepo{
         final pickupDate = DateTime.parse(bookingdate);
         DateTime currentDate = DateTime.now();
 
-        if (pickupDate.isBefore(currentDate)) {
+        if (pickupDate.isBefore(currentDate) && pickupDate !=currentDate) {
           historyList.add(BookedModel.fromJson(element.data()));
         }
       });

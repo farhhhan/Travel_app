@@ -6,6 +6,7 @@ class Todo {
   final String expiry;
   final String issueingCountry;
   final String panNumber;
+  final String pasImage;
 
   Todo({
     this.name = '',
@@ -15,6 +16,7 @@ class Todo {
     this.expiry = 'N\A',
     this.issueingCountry = 'N\A',
     this.panNumber = 'N\A',
+    this.pasImage='N\A'
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) {
@@ -26,21 +28,10 @@ class Todo {
       issueingCountry: json['issueingCountry'],
       panNumber: json['panNumber'],
       passportNumber: json['passportNumber'],
+      pasImage: json['pasImage'],
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'age': age,
-      'gender': gender,
-      'expiry': expiry,
-      'issueingCountry': issueingCountry,
-      'panNumber': panNumber,
-      'passportNumber': passportNumber,
-    };
-  }
-
+  
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -50,6 +41,7 @@ class Todo {
       'expiry': expiry,
       'issueingCountry': issueingCountry,
       'panNumber': panNumber,
+      'pasImage':pasImage
     };
   }
 

@@ -101,24 +101,8 @@ class _ChatRoomListScreenState extends State<ChatRoomListScreen> {
                           String lastMessageTime = lastTime != null
                               ? DateFormat('HH:mm').format(lastTime.toDate())
                               : '';
-
-                          return StreamBuilder<QuerySnapshot>(
-                            stream: MessageRepo().getMessage(
-                                currentUid, state.ChatList[index].uid),
-                            builder: (context, snapshot2) {
-                              if (snapshot2.connectionState ==
-                                  ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              }
-                              if (snapshot2.hasError) {
-                                return Text('Error: ${snapshot2.error}');
-                              }
-                              List<DocumentSnapshot> messages =
-                                  snapshot2.data!.docs;
-                              Map<String, dynamic> data = messages[index].data()
-                                  as Map<String, dynamic>;
-
-                              return Column(
+                              return
+                               Column(
                                 children: [
                                   ListTile(
                                     onTap: () {
@@ -143,23 +127,19 @@ class _ChatRoomListScreenState extends State<ChatRoomListScreen> {
                                       children: [
                                         Row(
                                           children: [
-                                            isCurrentUser
-                                                ? Icon(
-                                                    Icons.done_all,
-                                                    color: data['seen_time']
-                                                        ? Colors.blue
-                                                        : Colors.grey,
-                                                  )
-                                                : SizedBox(),
                                             SizedBox(
                                               width: 4,
                                             ),
-                                            Text('$lastMessage',
-                                                style: ThemeDataColors.roboto(
-                                                    colors: isCurrentUser
-                                                        ? Colors.white
-                                                        : Colors.green,
-                                                    fontsize: 17)),
+                                            SizedBox(
+                                              width: 100,
+                                              height: 30 ,
+                                              child: Text('$lastMessage',
+                                                  style: ThemeDataColors.roboto(
+                                                      colors: isCurrentUser
+                                                          ? Colors.white
+                                                          : Colors.green,
+                                                      fontsize: 17)),
+                                            ),
                                           ],
                                         ),
                                         Text('$lastMessageTime',
@@ -174,8 +154,6 @@ class _ChatRoomListScreenState extends State<ChatRoomListScreen> {
                                   Divider()
                                 ],
                               );
-                            },
-                          );
                         },
                       );
                     },

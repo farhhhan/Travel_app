@@ -8,14 +8,15 @@ import 'package:travel_app/infrastructure/util.dart';
 class FirebaseAuthentServices{
   FirebaseAuth _auth= FirebaseAuth.instance;
  final FirebaseFirestore firestore=FirebaseFirestore.instance;
-  Future<User?> signUpWithEmailandPassword({required String email,required String password})async{
-    try{
-        UserCredential credential=await _auth.createUserWithEmailAndPassword(email: email, password: password);
-        return credential.user;
-    }catch(e){
-       throw Exception(e.toString());
-    }
+ Future<User?> signUpWithEmailandPassword({required String email, required String password}) async {
+  try {
+    UserCredential credential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    return credential.user;
+  } catch (e) {
+    print('Error signing up: $e');
+    throw Exception('Error signing up: $e'); 
   }
+}
 
   Future<User?> signInWithEmailandPassword({required String email,required String password})async{
     try{

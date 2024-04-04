@@ -17,6 +17,7 @@ class ImgBlocBloc extends Bloc<ImgBlocEvent, ImgBlocState> {
   ImgBlocBloc(this.imagePickUtils) : super(ImgBlocState()) {
    on<camerPickerEvent>(_imageFromCamera);
    on<gellaryPickerEvent>(_imageFromGallery);
+   on<SaveEvent>(_saveEvent);
   }
 
   FutureOr<void> _imageFromCamera(camerPickerEvent event, Emitter<ImgBlocState> emit)async {
@@ -26,5 +27,9 @@ class ImgBlocBloc extends Bloc<ImgBlocEvent, ImgBlocState> {
   FutureOr<void> _imageFromGallery(gellaryPickerEvent event, Emitter<ImgBlocState> emit)async {
     XFile? file=await imagePickUtils.getimageFromGellary();
     emit(state.copyWith(file: file));
+  }
+
+  FutureOr<void> _saveEvent(SaveEvent event, Emitter<ImgBlocState> emit) {
+     emit(state.copyWith(file: null));
   }
 }

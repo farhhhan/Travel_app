@@ -56,6 +56,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                   child: Column(
                     children: [
                       TextFormField(
+                        style: TextStyle(color: Colors.black),
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
@@ -72,6 +73,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       TextFormField(
+                         style: TextStyle(color: Colors.black),
                         controller: _passwordController,
                         obscureText: true,
                         validator: (value) {

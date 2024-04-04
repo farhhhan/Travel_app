@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/application/bloc/imageBloc/bloc/img_bloc_bloc.dart';
 import 'package:travel_app/infrastructure/registerRepo.dart';
 import 'package:travel_app/infrastructure/firebaseStoreLogin.dart';
+import 'package:travel_app/presentation/commentScreens/bottom_navigator.dart';
 
 class UserRegister extends StatefulWidget {
   UserRegister({Key? key, required this.number, required this.isUser})
@@ -201,7 +202,7 @@ class _UserRegisterState extends State<UserRegister> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: () {
+                            onTap: ()async {
                               if (_formKey.currentState!.validate() && state.file!=null) {
                                 FireStoreUser().registerUser(
                                   images: state.file!,
@@ -212,6 +213,7 @@ class _UserRegisterState extends State<UserRegister> {
                                   phoneNumber: widget.number,
                                   username: _userNameController.text,
                                 );
+                              //  await FirebaseAuthentServices().signInWithEmailandPassword(email: _emailController.text, password: _passwordController.text);
                               }
                             },
                             child: Container(
