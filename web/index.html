@@ -31,7 +31,25 @@
 
   <title>travel_app</title>
   <link rel="manifest" href="manifest.json">
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getAnalytics } from "firebase/analytics";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0g0UoVfj9I2g8xv2Un5uXTBcPx-RccbQ",
+      authDomain: "travel-8c5ff.firebaseapp.com",
+      databaseURL: "https://travel-8c5ff-default-rtdb.firebaseio.com",
+      projectId: "travel-8c5ff",
+      storageBucket: "travel-8c5ff.appspot.com",
+      messagingSenderId: "750098882666",
+      appId: "1:750098882666:web:7f846612087066a7916a13",
+      measurementId: "G-1RLMNS6LPG"
+      };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
