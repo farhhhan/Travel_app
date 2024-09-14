@@ -1,8 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/presentation/commentScreens/screenIndicators.dart';
+import 'package:travel_app/theme/firebase_notification.dart';
 
-class StartScreen extends StatelessWidget {
+class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
+
+  @override
+  State<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   FirebaseServices firebaseServices = FirebaseServices();
+
+  //   // Request notification permission
+  //   firebaseServices.requestNotificationPermission();
+
+  //   // Get the device token and print it
+  //   firebaseServices.getDeviceToken().then((value) {
+  //     print("Device Token");
+  //     print(value);
+  //   });
+
+  //   // Initialize Firebase messaging
+  //   firebaseServices.firebaseInit();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +37,7 @@ class StartScreen extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/img.png'), 
+            image: AssetImage('images/img.png'),
             fit: BoxFit.fill,
           ),
         ),

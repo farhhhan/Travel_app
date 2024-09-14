@@ -32,6 +32,7 @@ class _AgencyIndvScreenState extends State<AgencyIndvScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[

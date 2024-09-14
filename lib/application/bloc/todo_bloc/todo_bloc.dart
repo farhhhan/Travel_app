@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:travel_app/infrastructure/bookingInternational.dart';
-import '../../../domain/data/todo.dart';
+import '../../../../../domain/data/todo.dart';
 
 part 'todo_event.dart';
 part 'todo_state.dart';

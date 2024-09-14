@@ -49,6 +49,7 @@ class _PackageDetailScreenState extends State<PackageDetailScreen> {
     );
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       floatingActionButton: BlocBuilder<AgencyBloc, AgencyState>(
         builder: (context, state) {
           if (state is AgencyLodedState) {
@@ -165,8 +166,8 @@ class _PackageDetailScreenState extends State<PackageDetailScreen> {
               shaderCallback: (Rect bounds) {
                 return LinearGradient(
                   colors: [
-                    Color(0xFF004EFF), // Deep Blue
-                    Color(0xFF00D2FF),
+                    (Colors.white),
+                    (Colors.white)
                   ], // Example gradient colors
                 ).createShader(bounds);
               },

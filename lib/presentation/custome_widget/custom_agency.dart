@@ -26,70 +26,98 @@ class CustomAgency extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              borderRadius: BorderRadius.circular(20),
-            ),
-            height: 100,
-            child: ListView.builder(
-              itemCount: agencyData.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 30),
-                        CircleAvatar(
-                          maxRadius: 30,
-                         child: ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                  20), 
-                              child: CachedNetworkImage(
-                                imageUrl: agencyData[index].profile,
-                                fit: BoxFit.fill,
-                                placeholder: (context, url) =>
-                                    SkeletonAnimation(
-                                        child: Container(color: Colors.grey)),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
+          child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(width: 30),
+                      CircleAvatar(
+                        maxRadius: 30,
+                       child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                20), 
+                            child: CachedNetworkImage(
+                              imageUrl: agencyData[0].profile,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) =>
+                                  SkeletonAnimation(
+                                      child: Container(color: Colors.grey)),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
-                        ),
-                        SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 150, 
-                              child: Text(
-                                '${agencyData[index].name}',
-                                style: GoogleFonts.aboreto(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                overflow: TextOverflow.ellipsis,
+                          ),
+                      ),
+                      SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 150, 
+                            child: Text(
+                              '${agencyData[0].name}',
+                              style: GoogleFonts.aboreto(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            SizedBox(
-                              width: 150,
-                              child: Text(
-                                '${agencyData[index].email}',
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                              '${agencyData[0].email}',
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
         ),
       ),
     );
   }
 }
+class CustomAgencyProfile extends StatelessWidget {
+  CustomAgencyProfile({Key? key, required this.agencyData}) : super(key: key);
+
+  final List<UserModel> agencyData;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AgencyIndvScreen(
+              agencyModel: agencyData[0],
+            ),
+          ),
+        );
+      },
+      child: Center(
+        child: CircleAvatar(
+          maxRadius: 30,
+         child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  20), 
+              child: CachedNetworkImage(
+                imageUrl: agencyData[0].profile,
+                fit: BoxFit.fill,
+                placeholder: (context, url) =>
+                    SkeletonAnimation(
+                        child: Container(color: Colors.grey)),
+                errorWidget: (context, url, error) =>
+                    Icon(Icons.error),
+              ),
+            ),
+        ),
+      ),
+    );
+  }
+}
+

@@ -210,6 +210,7 @@ class _SeeAllScreenState extends State<SeeAllScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

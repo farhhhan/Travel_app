@@ -91,7 +91,7 @@ class UserProfileScreen extends StatelessWidget {
                 showDailoges(context,'Do you want logout');
               },
               title: Text(
-                'Logount',
+                'Logout',
               ),
               trailing: Icon(
                 Icons.logout,
@@ -104,7 +104,7 @@ class UserProfileScreen extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('V 1.0.0',
+                Text('V 2.0.0',
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: 22,
@@ -147,4 +147,5 @@ class UserProfileScreen extends StatelessWidget {
       },
     );
   }
+
 }

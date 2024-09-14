@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "alexisvt.flutter-snippets"
+        "alexisvt.flutter-snippets",
+        "343max.android-emulator-launcher"
     ]
 }

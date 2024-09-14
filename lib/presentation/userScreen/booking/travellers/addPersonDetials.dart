@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,8 +10,9 @@ import 'package:travel_app/domain/data/todo.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddTaskScreen extends StatefulWidget {
-  AddTaskScreen({required this.isInternational});
   final bool isInternational;
+
+  AddTaskScreen({required this.isInternational});
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -28,10 +29,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   List<String> categories = ['Male', 'Female'];
   String? selectedGender;
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
+    context.read<ImgBlocBloc>().add(SaveEvent());
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       appBar: AppBar(
         title: Text('Add Personal Details'),
       ),
@@ -119,7 +121,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           ))
                                       .toList(),
                                   onChanged: (value) {
-                                    selectedGender = value;
+                                    setState(() {
+                                      selectedGender = value;
+                                    });
                                   },
                                 ),
                               ),
@@ -175,18 +179,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          SizedBox(
-                                            width: 160,
-                                            child: CustomTextField(
-                                              controller: _expiryController,
-                                              labelText: 'Expiry',
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'Please enter expiry date';
-                                                }
-                                                return null;
-                                              },
+                                          Expanded(
+                                            child: SizedBox(
+                                              child: CustomTextField(
+                                                controller: _expiryController,
+                                                labelText: 'Expiry',
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Please enter expiry date';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -229,56 +234,73 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 builder: (context, state) {
                   return Column(
                     children: [
-                     widget.isInternational
+                      widget.isInternational
                           ? InkWell(
-                        child: Container(
-                            height: 180,
-                            width: 360,
-                            decoration: BoxDecoration(color: Colors.grey),
-                            child: state.file == null
-                                ? Center(
-                                    child: Icon(Icons.add_a_photo),
-                                  )
-                                : Image.file(File(state.file!.path),
-                                    fit: BoxFit.fill)),
-                      ):SizedBox(),
+                              child: Container(
+                                height: 180,
+                                width: 360,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  image: state.file != null &&
+                                          state.file!.isNotEmpty &&
+                                          state.file!.isNotEmpty
+                                      ? DecorationImage(
+                                          image: FileImage(
+                                              File(state.file![0].path)),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                ),
+                                child: state.file == null ||
+                                        state.file!.isEmpty ||
+                                        state.file!.isEmpty
+                                    ? Center(child: Icon(Icons.add_a_photo))
+                                    : null,
+                              ),
+                              onTap: () {
+                                _showBottomSheet(context);
+                              },
+                            )
+                          : SizedBox(),
                       SizedBox(
                         height: 20,
                       ),
-                     widget.isInternational
+                      widget.isInternational
                           ? Container(
-                        width: 150,
-                        decoration: BoxDecoration(
-                            color: Colors.orange[200],
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: InkWell(
-                            onTap: () {
-                              _showBottomSheet(context);
-                            },
-                            child: Row(
-                              children: [
-                                Text('Upload Image'),
-                                VerticalDivider(
-                                  width: 10,
-                                  color: Colors.black,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                color: Colors.orange[200],
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    _showBottomSheet(context);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text('Upload Image'),
+                                      VerticalDivider(
+                                        width: 10,
+                                        color: Colors.black,
+                                      ),
+                                      Icon(Icons.upload),
+                                    ],
+                                  ),
                                 ),
-                                Icon(Icons.upload)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ):SizedBox(),
+                              ),
+                            )
+                          : SizedBox(),
                       SizedBox(
                         height: 20,
                       ),
                       InkWell(
                         onTap: () {
-                          if (_formKey.currentState!.validate() &&
-                             ( state.file != null || widget.isInternational)) {
-                            _addTodo(context, state.file!);
-                            context.read<ImgBlocBloc>().add(SaveEvent());
+                          if (_formKey.currentState!.validate()) {
+                            state.file!.isNotEmpty
+                                ? _addTodo(context, state.file![0])
+                                : _addTodo(context, null);
                           }
                         },
                         child: Row(
@@ -324,52 +346,61 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   Future<dynamic> _showBottomSheet(BuildContext context) {
     return showModalBottomSheet<dynamic>(
-        useRootNavigator: true,
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext bc) {
-          return BlocBuilder<ImgBlocBloc, ImgBlocState>(
-            builder: (context, state) {
-              return ListView(
-                shrinkWrap: true,
-                children: [
-                  ListTile(
-                    onTap: () {
-                      context.read<ImgBlocBloc>().add(camerPickerEvent());
-                      Navigator.pop(context);
-                    },
-                    leading: Icon(Icons.camera),
-                    title: Text('Take Form Camera'),
-                  ),
-                  ListTile(
-                    onTap: () {
-                      context.read<ImgBlocBloc>().add(gellaryPickerEvent());
-                      Navigator.pop(context);
-                    },
-                    leading: Icon(Icons.browse_gallery),
-                    title: Text('Take Form Gellary'),
-                  ),
-                ],
-              );
-            },
-          );
-        });
+      useRootNavigator: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext bc) {
+        return BlocBuilder<ImgBlocBloc, ImgBlocState>(
+          builder: (context, state) {
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  onTap: () {
+                    context.read<ImgBlocBloc>().add(camerPickerEvent());
+                    Navigator.pop(context);
+                  },
+                  leading: Icon(Icons.camera),
+                  title: Text('Take From Camera'),
+                ),
+                ListTile(
+                  onTap: () {
+                    context.read<ImgBlocBloc>().add(gellaryPickerEvent());
+                    Navigator.pop(context);
+                  },
+                  leading: Icon(Icons.browse_gallery),
+                  title: Text('Take From Gallery'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
-  void _addTodo(BuildContext context, XFile images) async {
+  void _addTodo(BuildContext context, XFile? image) async {
     if (widget.isInternational) {
+      if (image == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please select an image'),
+          ),
+        );
+        return;
+      }
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
           .ref('${DateTime.now().millisecondsSinceEpoch.toString()}');
-      firebase_storage.UploadTask uploadTask = ref.putFile(File(images.path));
+      firebase_storage.UploadTask uploadTask = ref.putFile(File(image.path));
       await uploadTask;
-      var newUrl = await ref.getDownloadURL();
+      var imageUrl = await ref.getDownloadURL();
       context.read<TodoBloc>().add(
             AddTodo(
               Todo(
-                pasImage: newUrl,
+                pasImage: imageUrl,
                 name: _nameController.text,
                 age: _ageController.text,
-                gender: selectedGender!,
+                gender: selectedGender.toString(),
                 passportNumber: _passportController.text,
                 expiry: _expiryController.text,
                 issueingCountry: _countryController.text,
@@ -378,22 +409,30 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
           );
     } else {
-      context.read<TodoBloc>().add(
-            AddTodo(
-              Todo(
+      try {
+        print(_nameController.text);
+        print(_ageController.text);
+        print(selectedGender);
+        context.read<TodoBloc>().add(
+              AddTodo(
+                Todo(
                   name: _nameController.text,
                   age: _ageController.text,
                   gender: selectedGender!,
-                  passportNumber: 'N\A',
-                  expiry: 'N\A',
-                  issueingCountry: 'N\A',
-                  panNumber: 'N\A',
+                  passportNumber: '',
+                  expiry: '',
+                  issueingCountry: '',
+                  panNumber: '',
                   pasImage:
-                      'https://i.pinimg.com/originals/5d/35/e3/5d35e39988e3a183bdc3a9d2570d20a9.gif'),
-            ),
-          );
+                      'https://static.vecteezy.com/system/resources/previews/023/914/428/original/no-document-or-data-found-ui-illustration-design-free-vector.jpg',
+                ),
+              ),
+            );
+      } catch (e) {
+        print(e);
+      }
     }
-
+    context.read<ImgBlocBloc>().add(SaveEvent());
     Navigator.pop(context);
   }
 }
@@ -418,6 +457,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType,
       validator: validator,
     );

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:travel_app/application/bloc/Bottom/bottom_nav_bloc.dart';
 import 'package:travel_app/application/bloc/SignUp/bloc/countery_bloc.dart';
 import 'package:travel_app/application/bloc/agecyprofile/getAgency/bloc/agency_bloc.dart';
@@ -16,7 +17,7 @@ import 'package:travel_app/application/bloc/filter/bloc/filter_bloc.dart';
 import 'package:travel_app/application/bloc/imageBloc/bloc/img_bloc_bloc.dart';
 import 'package:travel_app/application/bloc/packageBloc/bloc/package_bloc.dart';
 import 'package:travel_app/application/bloc/profileUser/bloc/user_bloc.dart';
-import 'package:travel_app/application/bloc/todo_bloc/todo_bloc.dart';
+import 'package:travel_app/application/bloc/SignUp/bloc/todo_bloc/todo_bloc.dart';
 import 'package:travel_app/infrastructure/agencyPackageRepo.dart';
 import 'package:travel_app/infrastructure/agencyRepo.dart';
 import 'package:travel_app/infrastructure/bookedRepo.dart';
@@ -28,15 +29,16 @@ import 'package:travel_app/infrastructure/package.dart';
 import 'package:travel_app/infrastructure/package_indivutal.dart';
 import 'package:travel_app/infrastructure/profileAuth.dart';
 import 'package:travel_app/presentation/commentScreens/startScreen.dart';
-
+import 'package:travel_app/presentation/userScreen/no_internet/nointernet.dart';
+import 'package:flutter_test/flutter_test.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Firebase based on platform
+  bool internetResult = await InternetConnectionChecker().hasConnection;
+  // FirebaseMessaging.onBackgroundMessage(_firebaseBackgorundMessageHandler);
   if (Platform.isAndroid) {
     await Firebase.initializeApp(
         options: const FirebaseOptions(
-      apiKey: "AIzaSyDuHbcxY5PxMOq6nJ-VcAkLxp4LjPTCaYI",
+      apiKey: "AIzaSyBO5fegRvaRlfTYmvvy4-cYWKPT7uLyJzo",
       projectId: "travel-8c5ff",
       messagingSenderId: "750098882666",
       appId: "1:750098882666:android:bc0eaa696a0a8573916a13",
@@ -57,61 +59,73 @@ void main(List<String> args) async {
   } else {
     await Firebase.initializeApp();
   }
-
-  runApp(MaterialsScreen());
+  testWidgets(
+    "test description",
+    (WidgetTester tester) async {
+      tester.pumpWidget(
+        MaterialApp(
+          
+        )
+      );
+    },
+  );
+  runApp(MaterialsScreen(
+    internetResult: internetResult,
+  ));
 }
 
-class MaterialsScreen extends StatefulWidget {
-  const MaterialsScreen({Key? key}) : super(key: key);
+// @pragma('vm:entry-point')
+// Future<void> _firebaseBackgorundMessageHandler(RemoteMessage messgae) async {
+//   print('it working');
+//   await Firebase.initializeApp();
+// }
 
-  @override
-  State<MaterialsScreen> createState() => _MaterialsScreenState();
-}
+class MaterialsScreen extends StatelessWidget {
+  MaterialsScreen({required this.internetResult, Key? key}) : super(key: key);
+  bool internetResult;
 
-class _MaterialsScreenState extends State<MaterialsScreen> {
   @override
   Widget build(BuildContext context) {
+    print(internetResult);
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<CountryBloc>(create: (context) => CountryBloc()),
-        BlocProvider<BottomNavBloc>(create: (context) => BottomNavBloc()),
-        BlocProvider<ImgBlocBloc>(
-            create: (context) => ImgBlocBloc(ImagePickerServices())),
-        BlocProvider<UserBloc>(create: (context) => UserBloc(UserProfile())),
-        BlocProvider<PackageBloc>(
-            create: (context) => PackageBloc(PackageSearvicesRepo())),
-        BlocProvider<AgencyBloc>(
-            create: (context) => AgencyBloc(AgencyProfoRepo())),
-        BlocProvider<AgencyIndvBloc>(
-            create: (context) => AgencyIndvBloc(AgencyindvRepo())),
-        BlocProvider<TodoBloc>(
-            create: (context) => TodoBloc(BookingInternational())),
-        BlocProvider<BookedBloc>(create: (context) => BookedBloc(BookedRepo())),
-        BlocProvider<PackageUidBloc>(
-            create: (context) => PackageUidBloc(IndivtualPackageRepo())),
-        BlocProvider<ChatRoomBloc>(
-            create: (context) => ChatRoomBloc(MessageRepo())),
-        BlocProvider<bookedHistoryBloc>(
-            create: (context) => bookedHistoryBloc(BookedRepo())),
-        BlocProvider<FavoretBloc>(create: (context) => FavoretBloc(Wish())),
-        BlocProvider<FilterBloc>(create: (context) => FilterBloc()),
-      ],
-      child: MaterialApp(
-        theme: ThemeData.dark(
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData(
-          fontFamily: 'Poppins',
-          primaryColor: const Color(0xFF0A1529),
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFFFFB325),
-            secondary: const Color(0xFFFFB325),
-          ),
-          useMaterial3: true,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: StartScreen(),
-      ),
-    );
+        providers: [
+          
+          BlocProvider<CountryBloc>(create: (context) => CountryBloc()),
+          BlocProvider<BottomNavBloc>(create: (context) => BottomNavBloc()),
+          BlocProvider<ImgBlocBloc>(
+              create: (context) => ImgBlocBloc(ImagePickerServices())),
+          BlocProvider<UserBloc>(create: (context) => UserBloc(UserProfile())),
+          BlocProvider<PackageBloc>(
+              create: (context) => PackageBloc(PackageSearvicesRepo())),
+          BlocProvider<AgencyBloc>(
+              create: (context) => AgencyBloc(AgencyProfoRepo())),
+          BlocProvider<AgencyIndvBloc>(
+              create: (context) => AgencyIndvBloc(AgencyindvRepo())),
+          BlocProvider<TodoBloc>(
+              create: (context) => TodoBloc(BookingInternational())),
+          BlocProvider<BookedBloc>(
+              create: (context) => BookedBloc(BookedRepo())),
+          BlocProvider<PackageUidBloc>(
+              create: (context) => PackageUidBloc(IndivtualPackageRepo())),
+          BlocProvider<ChatRoomBloc>(
+              create: (context) => ChatRoomBloc(MessageRepo())),
+          BlocProvider<bookedHistoryBloc>(
+              create: (context) => bookedHistoryBloc(BookedRepo())),
+          BlocProvider<FavoretBloc>(create: (context) => FavoretBloc(Wish())),
+          BlocProvider<FilterBloc>(create: (context) => FilterBloc()),
+        ],
+        child: MaterialApp(
+          //  theme: lightTheme,
+          //           // themeMode: mode,
+          //           darkTheme: darkTheme,
+          theme: ThemeData.dark(),
+          debugShowCheckedModeBanner: false,
+          home: internetResult
+              ? const StartScreen()
+              : NoInternetPage(
+                  internetResult: internetResult,
+                ),
+          // Force Dark mode
+        ));
   }
 }

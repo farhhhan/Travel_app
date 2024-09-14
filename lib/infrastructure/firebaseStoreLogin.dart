@@ -4,14 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:travel_app/application/bloc/imageBloc/bloc/img_bloc_bloc.dart';
 import 'package:travel_app/infrastructure/auth.dart';
 import 'package:travel_app/presentation/commentScreens/bottom_navigator.dart';
 
 class FireStoreUser {
   FirebaseAuthentServices _authServices = FirebaseAuthentServices();
 
-  void registerUser({
+  Future<int> registerUser({
     required XFile images,
     required BuildContext context,
     required String email,
@@ -49,21 +51,23 @@ class FireStoreUser {
            print('hellow check 3');
           await db.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).set(data);
         }
-
         // Navigate to next screen
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => UserBottomNavScreen()),
           (route) => false,
         );
+        return 0;
       } catch (e) {
         // Handle storage errors
         print('Error uploading image: $e');
         // You may want to show an error message to the user here
+        return 0;
       }
     } else {
       print('Something went wrong during user creation');
       // You may want to show an error message to the user here
+      return 0;
     }
   }
 }

@@ -41,6 +41,7 @@ class _BookedPackageDetialsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: BlocBuilder<PackageUidBloc, PackageUidState>(
         builder: (context, state) {
           if (state is PackageUidInitial) {

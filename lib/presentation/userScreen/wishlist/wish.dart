@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:travel_app/application/bloc/faverot/bloc/favoret_bloc.dart';
 import 'package:travel_app/domain/packageModel/packageModel.dart';
-import 'package:travel_app/presentation/userScreen/filter_search/widgets/filter.dart';
 import 'package:travel_app/presentation/userScreen/filter_search/widgets/package_card.dart';
 import 'package:travel_app/presentation/userScreen/wishlist/widget/filterwish.dart';
 
@@ -11,7 +10,6 @@ class WishScreen extends StatefulWidget {
   const WishScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _WishScreenState createState() => _WishScreenState();
 }
 
@@ -19,13 +17,13 @@ class WishScreen extends StatefulWidget {
 class _WishScreenState extends State<WishScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<FavoretBloc>().add(GetWishEvent());
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -49,8 +47,13 @@ class _WishScreenState extends State<WishScreen> {
                 child: BlocBuilder<FavoretBloc, FavoretState>(
                   builder: (context, state) {
                     if (state is WishLoadingState) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
                       );
                     } else if (state is WishLoadedState) {
                       return StaggeredGrid.count(

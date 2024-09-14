@@ -6,7 +6,6 @@ import 'package:travel_app/domain/packageModel/packageModel.dart';
 import 'package:travel_app/domain/taskModel/taskModel.dart';
 import 'package:travel_app/presentation/custome_widget/widgets/bottom_rounded_clipper.dart';
 import 'package:travel_app/presentation/custome_widget/widgets/order_button.dart';
-import 'package:travel_app/presentation/custome_widget/widgets/pizza_size.dart';
 import 'package:travel_app/presentation/custome_widget/widgets/task_details.dart';
 
 class TaskDetialsScreen extends StatefulWidget {
@@ -48,6 +47,7 @@ class _TaskDetialsScreenState extends State<TaskDetialsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -171,7 +171,7 @@ class _TaskDetialsScreenState extends State<TaskDetialsScreen> {
                         animation: _detailsSlideController,
                         builder: (context, child) {
                           return SizedBox(
-                            height: 170,
+                            height: 200,
                             child: PageView.builder(
                               itemCount:
                                   widget.packageModel.activityList!.length,

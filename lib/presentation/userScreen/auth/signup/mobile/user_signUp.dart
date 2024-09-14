@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/application/bloc/SignUp/bloc/countery_bloc.dart';
 import 'package:travel_app/application/bloc/SignUp/bloc/countery_event.dart';
 import 'package:travel_app/application/bloc/SignUp/bloc/countery_state.dart';
 import 'package:travel_app/presentation/userScreen/auth/signup/mobile/otpScreen.dart';
 import 'package:travel_app/presentation/themeData/themeDataColors.dart';
+import 'package:travel_app/presentation/userScreen/auth/signup/userRegister.dart';
+import 'package:travel_app/theme/colors.dart';
 
 class UserPhoneScreen extends StatefulWidget {
   UserPhoneScreen({Key? key}) : super(key: key);
@@ -17,12 +18,13 @@ class UserPhoneScreen extends StatefulWidget {
 }
 
 class _UserPhoneScreenState extends State<UserPhoneScreen> {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String verificationId = '';
+
   @override
   Widget build(BuildContext context) {
-    print('rebuild the tree');
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -60,12 +62,12 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 Text(
-                  "Add your phone Number, we'll sent you a",
-                  style:   ThemeDataColors.normalText(colors: Colors.grey[300])
+                  "Add your phone Number,",
+                  style: ThemeDataColors.normalText(colors: Colors.grey[300]),
                 ),
                 Text(
-                  "verification code",
-                  style: ThemeDataColors.normalText(colors: Colors.grey[300])
+                  "",
+                  style: ThemeDataColors.normalText(colors: Colors.grey[300]),
                 ),
               ],
             ),
@@ -76,11 +78,14 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
               padding: const EdgeInsets.all(8.0),
               child: BlocBuilder<CountryBloc, CountryState>(
                 builder: (context, state) {
-                  state.controller?.selection = TextSelection.fromPosition(
-                    TextPosition(offset: state.controller!.text.length),
-                  );
-                  print('rebuild state');
+                  if (state.controller != null) {
+                    state.controller?.selection = TextSelection.fromPosition(
+                      TextPosition(offset: state.controller!.text.length),
+                    );
+                  }
+
                   final selectedCountry = state.country;
+
                   return Column(
                     children: [
                       TextFormField(
@@ -108,7 +113,7 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
                                 );
                               },
                               child: Text(
-                                '${selectedCountry!.flagEmoji} +${selectedCountry.phoneCode}',
+                                '${selectedCountry?.flagEmoji ?? ''} +${selectedCountry?.phoneCode ?? ''}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontSize: 18,
@@ -116,7 +121,7 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
                               ),
                             ),
                           ),
-                          suffixIcon: state.controller!.text.length == 10
+                          suffixIcon: state.controller?.text.length == 10
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: CircleAvatar(
@@ -124,7 +129,7 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
                                     child: Center(
                                       child: Icon(
                                         Icons.done,
-                                        color: Colors.white,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -132,57 +137,31 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
                               : null,
                           hintText: 'Enter Your Number',
                           hintStyle: TextStyle(fontWeight: FontWeight.w500),
-                          fillColor: Colors.grey,
+                          fillColor: lWhite,
                         ),
+                        keyboardType: TextInputType.phone,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       InkWell(
                         onTap: () async {
-                          print(
-                              '+${state.country!.phoneCode}${state.controller!.text}');
-                          try {
-                            await _auth.verifyPhoneNumber(
-                              timeout: Duration(seconds: 60),
-                              phoneNumber:
-                                  '+${state.country!.phoneCode}${state.controller!.text}',
-                              verificationCompleted:
-                                  (PhoneAuthCredential credential) async {
-                                await _auth.signInWithCredential(credential);
-                                // Navigate to next screen upon successful verification
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OtpScreen(
-                                        verificationId: verificationId),
-                                  ),
-                                );
-                              },
-                              verificationFailed: (FirebaseAuthException e) {
-                                print('Verification Failed: ${e.message}');
-                              },
-                              codeSent:
-                                  (String verificationId, int? resendToken) {
-                                // Save the verification ID for later use
-                                this.verificationId = verificationId;
-                                // Navigate to the OTP screen
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OtpScreen(
-                                      verificationId: verificationId,
-                                    ),
-                                  ),
-                                );
-                              },
-                              codeAutoRetrievalTimeout:
-                                  (String verificationId) {
-                                // Handle timeout
-                              },
+                          final phoneNumber = state.controller?.text;
+                          final phoneNumberPattern = RegExp(r'^\d{10}$');
+
+                          if (phoneNumber == null || !phoneNumberPattern.hasMatch(phoneNumber)) {
+                            showSnackBar(context, 'Please enter a valid 10-digit phone number.');
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserRegister(
+                                  number: phoneNumber,
+                                  isUser: true,
+                                ),
+                              ),
                             );
-                          } catch (e) {
-                            print('Error verifying phone number: $e');
+                            state.controller!.clear();
                           }
                         },
                         child: Container(
@@ -219,4 +198,24 @@ class _UserPhoneScreenState extends State<UserPhoneScreen> {
       ),
     );
   }
+
+  void showSnackBar(BuildContext context, String content) {
+    final snackBar = SnackBar(
+      content: Container(
+        height: 50.0, // Set your desired height here
+        alignment: Alignment.center,
+        child: Text(content),
+      ),
+      elevation: 5,
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {},
+      ),
+      behavior: SnackBarBehavior.floating, // Makes the SnackBar float 
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
+

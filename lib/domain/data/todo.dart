@@ -12,26 +12,26 @@ class Todo {
     this.name = '',
     this.age = '',
     this.gender = '',
-    this.passportNumber = 'N\A',
-    this.expiry = 'N\A',
-    this.issueingCountry = 'N\A',
-    this.panNumber = 'N\A',
-    this.pasImage='N\A'
+    this.passportNumber = 'N/A',
+    this.expiry = 'N/A',
+    this.issueingCountry = 'N/A',
+    this.panNumber = 'N/A',
+    this.pasImage = 'N/A',
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-      name: json['name'],
-      age: json['age'],
-      gender: json['gender'],
-      expiry: json['expiry'],
-      issueingCountry: json['issueingCountry'],
-      panNumber: json['panNumber'],
-      passportNumber: json['passportNumber'],
-      pasImage: json['pasImage'],
+      name: json['name'] ?? '',
+      age: json['age'] ?? '',
+      gender: json['gender'] ?? '',
+      expiry: json['expiry'] ?? 'N/A',
+      issueingCountry: json['issueingCountry'] ?? 'N/A',
+      panNumber: json['panNumber'] ?? 'N/A',
+      passportNumber: json['passportNumber'] ?? 'N/A',
+      pasImage: json['pasImage'] ?? 'N/A',
     );
   }
-  
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -41,7 +41,7 @@ class Todo {
       'expiry': expiry,
       'issueingCountry': issueingCountry,
       'panNumber': panNumber,
-      'pasImage':pasImage
+      'pasImage': pasImage,
     };
   }
 
@@ -50,8 +50,8 @@ class Todo {
     return '''Todo: {
       name: $name\n
       age: $age\n
-      gender:$gender\n
-      passportNumber:$passportNumber\n
+      gender: $gender\n
+      passportNumber: $passportNumber\n
     }''';
   }
 }

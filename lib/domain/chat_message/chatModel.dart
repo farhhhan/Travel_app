@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 class Message {
-  final String sendEmail; // Changed from sendEmail to send_Email
+  final String sendEmail; 
   final String message;
   final String messageId;
   final String senderId;
   final String receiverId;
-  final DateTime dateTime; // Changed from dateTime to sendTime
+  final DateTime dateTime; 
   final bool seen;
   final String messageType;
 

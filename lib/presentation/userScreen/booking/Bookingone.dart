@@ -14,6 +14,33 @@ import 'package:travel_app/presentation/userScreen/booking/widget/custom_builder
 import 'package:travel_app/presentation/userScreen/booking/widget/custome_datePicker.dart';
 import 'package:travel_app/presentation/userScreen/intsplash/sendingInterNational.dart';
 
+class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+
+  const CustomTextField({
+    Key? key,
+    required this.controller,
+    required this.labelText,
+    required this.keyboardType,
+    this.validator,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+      ),
+      validator: validator,
+    );
+  }
+}
+
 class BookingShowOneScreen extends StatelessWidget {
   BookingShowOneScreen({
     Key? key,
@@ -33,7 +60,14 @@ class BookingShowOneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              context.read<TodoBloc>().add(afterSaveEvent());
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
         title: ListTile(
           title: Text('Review Page', style: BookingStyles.appBarTitleStyle),
           subtitle: Text('${packageModel.packageName}',
@@ -65,9 +99,8 @@ class BookingShowOneScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Trevellers Detials',
-                          style: BookingStyles.getTitleTextStyle(
-                            Colors.grey[400]
-                          ),
+                          style:
+                              BookingStyles.getTitleTextStyle(Colors.grey[400]),
                         ),
                         Text(
                           'Travellers detials & Information will be sent to -',
@@ -103,7 +136,8 @@ class BookingShowOneScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       'Traveller',
-                                      style: BookingStyles.getTitleTextStyle(Colors.white),
+                                      style: BookingStyles.getTitleTextStyle(
+                                          Colors.white),
                                     ),
                                   ],
                                 ),
@@ -147,13 +181,14 @@ class BookingShowOneScreen extends StatelessWidget {
                                 CustomTextField(
                                   controller: emailController,
                                   labelText: 'EMAIL ID',
-                                  keyboardType: TextInputType.name,
+                                  keyboardType: TextInputType.emailAddress,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter a name';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$')
+                                      return 'Please enter an email address';
+                                    } else if (!RegExp(
+                                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                         .hasMatch(value)) {
-                                      return 'Please enter valid name';
+                                      return 'Please enter a valid email address';
                                     }
                                     return null;
                                   },
@@ -161,12 +196,13 @@ class BookingShowOneScreen extends StatelessWidget {
                                 CustomTextField(
                                   controller: phoneController,
                                   labelText: 'MOBILE',
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.phone,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your age';
-                                    } else if (int.tryParse(value) == null) {
-                                      return 'Please enter a valid age';
+                                      return 'Please enter a phone number';
+                                    } else if (!RegExp(r'^[0-9]{10}$')
+                                        .hasMatch(value)) {
+                                      return 'Please enter a valid phone number';
                                     }
                                     return null;
                                   },
@@ -175,7 +211,7 @@ class BookingShowOneScreen extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Card(
-                                  color:Colors.blueAccent ,
+                                  color: Colors.blueAccent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -195,9 +231,8 @@ class BookingShowOneScreen extends StatelessWidget {
                                       onCityChanged: (value) {
                                         city = value;
                                       },
-                                      selectedItemStyle: TextStyle(
-                                        color: Colors.black
-                                      ),
+                                      selectedItemStyle:
+                                          TextStyle(color: Colors.black),
                                       countrySearchPlaceholder: 'Country',
                                       stateSearchPlaceholder: 'State',
                                       citySearchPlaceholder: 'City',
@@ -213,12 +248,10 @@ class BookingShowOneScreen extends StatelessWidget {
                                 CustomTextField(
                                   controller: gstController,
                                   labelText: 'GST Address',
-                                  keyboardType: TextInputType.number,
+                                  keyboardType: TextInputType.text,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your age';
-                                    } else if (int.tryParse(value) == null) {
-                                      return 'Please enter a valid age';
+                                      return 'Please enter a GST address';
                                     }
                                     return null;
                                   },
@@ -394,6 +427,7 @@ class BookingShowOneScreen extends StatelessWidget {
         u_uid: FirebaseAuth.instance.currentUser!.uid));
     showAlertDialog(context, "Payment Successful", successMessage);
     context.read<TodoBloc>().add(afterSaveEvent());
+     context.read<TodoBloc>().add(afterSaveEvent());
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => UserBottomNavScreen()),

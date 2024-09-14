@@ -53,22 +53,6 @@ class startTwoScreen extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.07,
-            width: MediaQuery.of(context).size.width * 0.75,
-            decoration: BoxDecoration(
-              color: Colors.blue[900],
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text("Next",
-                    style: ThemeDataColors.googleAbl(
-                        colors: Colors.white, fontsize: 20)),
-              ),
-            ),
-          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),

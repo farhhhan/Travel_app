@@ -29,6 +29,7 @@ class _ChatRoomListScreenState extends State<ChatRoomListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       appBar: AppBar(
         title: Text(
           'Messaging',
@@ -58,9 +59,7 @@ class _ChatRoomListScreenState extends State<ChatRoomListScreen> {
               } else if (state is ChatLoadedState) {
                 if (state.ChatList.length <= 0) {
                   return Center(
-                    child: Image.network(
-                      'https://th.bing.com/th/id/OIP.XTXjmYjjoYO9w6nSVw0gqQHaFj?w=206&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-                    ),
+                    child: Text('Looks Empty. No upcomming trips availabe',)
                   );
                 }
                 return Expanded(

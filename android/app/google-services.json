@@ -1,10 +1,58 @@
 {
   "project_info": {
     "project_number": "750098882666",
+    "firebase_url": "https://travel-8c5ff-default-rtdb.firebaseio.com",
     "project_id": "travel-8c5ff",
     "storage_bucket": "travel-8c5ff.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750098882666:android:30c4cb132f9cfdf8916a13",
+        "android_client_info": {
+          "package_name": "com.example.travel_agency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750098882666-b6c4hrke466oqk7siqara5qkhau3t63n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_agency",
+            "certificate_hash": "5933b02533bdb6f805c87add2fcc7b9b32cfcd7a"
+          }
+        },
+        {
+          "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuHbcxY5PxMOq6nJ-VcAkLxp4LjPTCaYI"
+        },
+        {
+          "current_key": "AIzaSyBO5fegRvaRlfTYmvvy4-cYWKPT7uLyJzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750098882666-nnu87ehem8lu36b48viktshrnq0htcef.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.triptwist"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:750098882666:android:bc0eaa696a0a8573916a13",
@@ -12,15 +60,145 @@
           "package_name": "com.example.travel_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "750098882666-nr6ntmhovm6eicogrh581j7otu7k7f80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_app",
+            "certificate_hash": "5933b02533bdb6f805c87add2fcc7b9b32cfcd7a"
+          }
+        },
+        {
+          "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDuHbcxY5PxMOq6nJ-VcAkLxp4LjPTCaYI"
+        },
+        {
+          "current_key": "AIzaSyBO5fegRvaRlfTYmvvy4-cYWKPT7uLyJzo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750098882666-nnu87ehem8lu36b48viktshrnq0htcef.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.triptwist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750098882666:android:1fbf7d8cb598fee9916a13",
+        "android_client_info": {
+          "package_name": "com.example.triptwist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750098882666-8p633391o3iiai0qg6hk4egojccdc87g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.triptwist",
+            "certificate_hash": "5933b02533bdb6f805c87add2fcc7b9b32cfcd7a"
+          }
+        },
+        {
+          "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuHbcxY5PxMOq6nJ-VcAkLxp4LjPTCaYI"
+        },
+        {
+          "current_key": "AIzaSyBO5fegRvaRlfTYmvvy4-cYWKPT7uLyJzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750098882666-nnu87ehem8lu36b48viktshrnq0htcef.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.triptwist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750098882666:android:1ab05253398650ba916a13",
+        "android_client_info": {
+          "package_name": "com.example.triptwisttravles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750098882666-auocgr6a4dg23q6kh00njukg2gl2m9qv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.triptwisttravles",
+            "certificate_hash": "9a6e552e1c69500683f8802d30bb0678100d315c"
+          }
+        },
+        {
+          "client_id": "750098882666-h1p5l00qcp3qsbbiif91sgeko1ausdpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.triptwisttravles",
+            "certificate_hash": "5933b02533bdb6f805c87add2fcc7b9b32cfcd7a"
+          }
+        },
+        {
+          "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuHbcxY5PxMOq6nJ-VcAkLxp4LjPTCaYI"
+        },
+        {
+          "current_key": "AIzaSyBO5fegRvaRlfTYmvvy4-cYWKPT7uLyJzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750098882666-rn8j59qsuo4925gsdne5sng5rea3q5lo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "750098882666-nnu87ehem8lu36b48viktshrnq0htcef.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.triptwist"
+              }
+            }
+          ]
         }
       }
     }

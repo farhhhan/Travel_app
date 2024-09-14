@@ -20,10 +20,10 @@ class _SplashBookedState extends State<SplashBooked> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: 
-        Image.network('https://cdn.dribbble.com/users/722246/screenshots/4400319/loading_crescor_dribbble.gif'),
-      ),
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
+      body: Expanded(child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Image.network('https://cdn.dribbble.com/users/722246/screenshots/4400319/loading_crescor_dribbble.gif',fit: BoxFit.fill,))),
     );
   }
    Future<void> succes() async {

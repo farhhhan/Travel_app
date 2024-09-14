@@ -18,6 +18,7 @@ class _filterPackageScreenState extends State<filterPackageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -41,8 +42,13 @@ class _filterPackageScreenState extends State<filterPackageScreen> {
                 child: BlocBuilder<PackageBloc, PackageState>(
                   builder: (context, state) {
                     if (state is PackageLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
                       );
                     } else if (state is packageLoaded) {
                       return StaggeredGrid.count(

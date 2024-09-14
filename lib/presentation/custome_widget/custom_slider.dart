@@ -7,24 +7,24 @@ import 'package:cached_network_image/cached_network_image.dart'; // Import cache
 import 'package:travel_app/domain/advertesment/adModel.dart';
 import 'package:travel_app/domain/packageModel/packageModel.dart';
 import 'package:travel_app/presentation/userScreen/filter_search/widgets/package_card.dart';
+import 'package:travel_app/presentation/userScreen/home/tile.dart';
 import 'package:travel_app/presentation/userScreen/home/user_home.dart';
 import 'package:travel_app/presentation/userScreen/package/packageDetials.dart';
 
-
 class CustomSliderOne extends StatelessWidget {
-  const CustomSliderOne({
-    Key? key,
-    required this.packageList,
-    required this.ratio,
-    required this.center,
-    required this.isCard
-  }) : super(key: key);
+  const CustomSliderOne(
+      {Key? key,
+      required this.packageList,
+      required this.ratio,
+      required this.center,
+      required this.isCard})
+      : super(key: key);
 
   final List<PackageModel> packageList;
   final double ratio;
   final bool center;
   final bool isCard;
-  
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -32,47 +32,52 @@ class CustomSliderOne extends StatelessWidget {
       child: CarouselSlider.builder(
         itemCount: packageList.length,
         itemBuilder: (BuildContext context, int index, int pageViewIndex) {
-          if(isCard){
+          if (isCard) {
             return Padding(
-              padding: const EdgeInsets.only(left:10.0,bottom: 5),
-              child: PackageCard(packageModel:packageList[index]),
+              padding: const EdgeInsets.only(left: 10.0, bottom: 5),
+              child: PackageCard(packageModel: packageList[index]),
             );
-          }else{
+          } else {
             return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        PackageDetailScreen(packageModel: packageList[index]),
-                ),
-                );
-              },
-              child: Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                     custom_scrollText(content: '${packageList[index].packageName}', size: 24),
-                     custom_scrollText(content: '${packageList[index].packageLocation}', size: 12)
-                    ],
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                      packageList[index].imageUrlList![0],
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          PackageDetailScreen(packageModel: packageList[index]),
                     ),
-                    fit: BoxFit.fill,
+                  );
+                },
+                child: Container(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        custom_scrollText(
+                          content: '${packageList[index].packageName}',
+                          size: 24,
+                        ),
+                        custom_scrollText(
+                            content: '${packageList[index].packageLocation}',
+                            size: 12)
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                        packageList[index].imageUrlList![0],
+                      ),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
           }
         },
         options: CarouselOptions(
@@ -109,26 +114,10 @@ class CustomAd extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
-              onTap: () {},
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CachedNetworkImage(
-                    imageUrl: addlist[index].imageUrl,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => Center(
-                        child: SkeletonAnimation(
-                            child: Container(
-                      color: Colors.black38,
-                    ))),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-              ),
-            ),
+                onTap: () {},
+                child: TitleCard(
+                  url: addlist[index].imageUrl,
+                )),
           );
         },
         options: CarouselOptions(

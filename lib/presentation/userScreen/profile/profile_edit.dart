@@ -31,6 +31,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+         backgroundColor: const Color.fromARGB(255, 24, 24, 24),
         resizeToAvoidBottomInset: false,
         body: Stack(
           fit: StackFit.expand,
@@ -96,7 +97,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                                   maxRadius: 70,
                                   backgroundImage: state.file != null
                                       ? FileImage(
-                                          File(state.file!.path),
+                                          File(state.file![0].path),
                                         )
                                       : null,
                                   child: state.file == null
@@ -160,7 +161,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                                         child:CircularProgressIndicator()
                                       );
                                     });
-                                await _updateAgency(state.file!);
+                                await _updateAgency(state.file![0]);
                                 showSnackBar(
                                     context, 'Profile Update Succesfully');
                                 context.read<ImgBlocBloc>().add(SaveEvent());

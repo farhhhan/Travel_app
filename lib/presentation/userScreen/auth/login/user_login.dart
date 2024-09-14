@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:travel_app/presentation/themeData/themeDataColors.dart';
 import 'package:travel_app/presentation/userScreen/auth/signup/mobile/user_signUp.dart';
 import 'package:travel_app/infrastructure/auth.dart';
@@ -17,10 +18,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseAuthentServices _authServices = FirebaseAuthentServices();
+  bool isPasswordVisible = false;
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -73,9 +76,9 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01),
                       TextFormField(
-                         style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.black),
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: !isPasswordVisible,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
@@ -83,6 +86,18 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                          ),
                           labelText: 'Password',
                           hintText: 'Password',
                         ),
@@ -94,9 +109,15 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              _authServices.forgetPassword(_emailController.text);
+                              _authServices
+                                  .forgetPassword(_emailController.text);
+                              showSnackBar(context,
+                                  "Reset Password is Shared in this Mail");
                             },
-                            child: Text('Forgot Password?',style:  ThemeDataColors.roboto(fontsize: 15),),
+                            child: Text(
+                              'Forgot Password?',
+                              style: ThemeDataColors.roboto(fontsize: 15),
+                            ),
                           ),
                         ],
                       ),
@@ -118,7 +139,11 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: (isLoading)
-                                  ? CircularProgressIndicator()
+                                  ? LoadingAnimationWidget
+                                      .horizontalRotatingDots(
+                                      color: Colors.white,
+                                      size: 50,
+                                    )
                                   : Text(
                                       "Sign In",
                                       style: TextStyle(
@@ -133,12 +158,16 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.035),
-                      Text('Or Login Via',style:  ThemeDataColors.roboto(fontsize: 15),),
+                      Text(
+                        'Or Login Via',
+                        style: ThemeDataColors.roboto(fontsize: 15),
+                      ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.034),
                       InkWell(
-                        onTap: () { FirebaseAuthentServices().signInWithGoogle(context,true);
-                        
+                        onTap: () {
+                          FirebaseAuthentServices()
+                              .signInWithGoogle(context, true);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -154,9 +183,11 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       CircleAvatar(
-                                          maxRadius: 20,
-                                          backgroundImage: AssetImage( 'images/google.png',),
-                                          ),
+                                        maxRadius: 20,
+                                        backgroundImage: AssetImage(
+                                          'images/google.png',
+                                        ),
+                                      ),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.height *
@@ -164,7 +195,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                                       ),
                                       Text(
                                         'Continue With Google',
-                                        style: ThemeDataColors.normalText(colors: Colors.black),
+                                        style: ThemeDataColors.normalText(
+                                            colors: Colors.black),
                                       )
                                     ],
                                   ),
@@ -207,7 +239,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
     );
   }
 
-   void _signIn(BuildContext context) async {
+  void _signIn(BuildContext context) async {
     String email = _emailController.text;
     String password = _passwordController.text;
     setState(() {
@@ -216,8 +248,9 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
     await _authServices
         .signInWithEmailandPassword(email: email, password: password)
         .then((value) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => UserBottomNavScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => UserBottomNavScreen()));
+
       utils().showToast('Login Succesfully');
       setState(() {
         isLoading = false;
@@ -228,5 +261,25 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
         isLoading = false;
       });
     });
+  }
+
+  void showSnackBar(BuildContext context, String content) {
+    final snackBar = SnackBar(
+      content: Container(
+        height: 50.0, // Set your desired height here
+        alignment: Alignment.center,
+        child: Text(content,style: TextStyle(color: Colors.white),),
+      ),
+      elevation: 5,
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {},
+      ),
+      backgroundColor: Colors.black,
+      behavior: SnackBarBehavior.floating, // Makes the SnackBar float
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
